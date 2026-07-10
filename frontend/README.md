@@ -1,12 +1,6 @@
 # React Todo App
 
-This folder contains the front-end project delivered for the exercise. The application is a small React todo app built with Vite to practice:
-
-- reusable components
-- props
-- local state with `useState`
-- side effects with `useEffect`
-- API consumption with `fetch`
+This folder contains the front-end project delivered for the exercise. The application is a small React todo app built with Vite to practice core React concepts in a simple, readable project.
 
 ## Project Location
 
@@ -14,7 +8,7 @@ This folder contains the front-end project delivered for the exercise. The appli
 
 ## Overview
 
-The application loads a list of todos from a public API, displays them in a simple interface, and allows the user to add local tasks and toggle their completion state.
+The application fetches a short list of todos from a public API, displays them in a styled interface, lets the user add tasks locally, toggle completion, and switch the UI language between French and English.
 
 ## Features
 
@@ -23,7 +17,7 @@ The application loads a list of todos from a public API, displays them in a simp
 - displays loading and error states
 - adds new todos locally through a controlled form
 - toggles completion status by clicking on a todo item
-- lets the user switch the interface language between French and English
+- supports French and English through a language selector
 
 ## Tech Stack
 
@@ -55,7 +49,7 @@ npm run build
 
 ## Project Structure
 
-- `frontend/front-app/src/App.jsx` - main application logic, state management, API call, and language selection
+- `frontend/front-app/src/App.jsx` - main application logic, state management, API call, translations, and language selection
 - `frontend/front-app/src/components/Header.jsx` - reusable header component receiving translated props
 - `frontend/front-app/src/components/TodoItem.jsx` - todo item component handling click-based completion toggle
 - `frontend/front-app/src/App.css` - component-level styles
@@ -76,4 +70,4 @@ AI was used to:
 - reusable components were added in `src/components/`
 - API loading, filtering, error handling, and local todo creation were implemented
 - a language switcher was added for French and English
-- the project structure was cleaned to remove template leftovers and duplicate documentation.
+- the project structure was cleaned to remove template leftovers and duplicate documentation
