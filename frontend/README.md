@@ -76,4 +76,4 @@ AI was used to:
 - reusable components were added in `src/components/`
 - API loading, filtering, error handling, and local todo creation were implemented
 - a language switcher was added for French and English
-- the project structure was cleaned to remove template leftovers and duplicate documentation
+- the project structure was cleaned to remove template leftovers and duplicate documentation.
