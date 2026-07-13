@@ -7,6 +7,40 @@ const EMPTY_FORM = {
   description: '',
 }
 
+function buildResponseErrorMessage(response, fallbackMessage) {
+  if (response.status === 404) {
+    return `Route API introuvable (${API_URL}). Verifie l'URL ou le proxy Vite.`
+  }
+
+  if (response.status >= 500) {
+    return "Le serveur a rencontre une erreur. Verifie le terminal Rails."
+  }
+
+  return fallbackMessage
+}
+
+async function parseJsonSafely(response) {
+  const contentType = response.headers.get('content-type') || ''
+
+  if (!contentType.includes('application/json')) {
+    return null
+  }
+
+  try {
+    return await response.json()
+  } catch {
+    return null
+  }
+}
+
+function buildNetworkErrorMessage(error) {
+  if (error instanceof TypeError) {
+    return `Impossible de joindre l'API ${API_URL}. Verifie que Rails tourne et que le proxy Vite est actif.`
+  }
+
+  return error.message || 'Une erreur reseau est survenue.'
+}
+
 function ProjectsList() {
   const [projects, setProjects] = useState([])
   const [form, setForm] = useState(EMPTY_FORM)
@@ -23,16 +57,21 @@ function ProjectsList() {
         setErrorMessage('')
 
         const response = await fetch(API_URL, { signal: controller.signal })
+        const data = await parseJsonSafely(response)
 
         if (!response.ok) {
-          throw new Error('Impossible de recuperer les projets.')
+          throw new Error(
+            buildResponseErrorMessage(
+              response,
+              'Impossible de recuperer les projets.',
+            ),
+          )
         }
 
-        const data = await response.json()
         setProjects(Array.isArray(data) ? data : [])
       } catch (error) {
         if (error.name !== 'AbortError') {
-          setErrorMessage(error.message || 'Une erreur reseau est survenue.')
+          setErrorMessage(buildNetworkErrorMessage(error))
         }
       } finally {
         if (!controller.signal.aborted) {
@@ -74,16 +113,22 @@ function ProjectsList() {
         body: JSON.stringify({ title, description }),
       })
 
-      const data = await response.json()
+      const data = await parseJsonSafely(response)
 
       if (!response.ok) {
-        throw new Error(data.error || 'Impossible de creer le projet.')
+        throw new Error(
+          data?.error ||
+            buildResponseErrorMessage(
+              response,
+              'Impossible de creer le projet.',
+            ),
+        )
       }
 
       setProjects((currentProjects) => [data, ...currentProjects])
       setForm(EMPTY_FORM)
     } catch (error) {
-      setErrorMessage(error.message || 'Une erreur reseau est survenue.')
+      setErrorMessage(buildNetworkErrorMessage(error))
     } finally {
       setIsSubmitting(false)
     }
