@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 
-const API_URL = 'http://localhost:3000/api/projects'
+const API_URL = '/api/projects'
 
 const EMPTY_FORM = {
   title: '',
@@ -96,7 +96,9 @@ function ProjectsList() {
           Cette interface consomme une API Rails locale. Le formulaire envoie un
           `POST` JSON et la liste est rechargee en memoire cote front.
         </p>
-        <p className="endpoint">Endpoint utilise: {API_URL}</p>
+        <p className="endpoint">
+          Endpoint utilise: {API_URL} via le proxy Vite vers Rails
+        </p>
       </div>
 
       <form className="project-form" onSubmit={handleSubmit}>
