@@ -17,7 +17,17 @@ Les projets sont stockes en memoire pour rester sur un MVP simple.
 - `src/` : front React principal
 - `integration/README.md` : documentation detaillee de l'integration
 
+## Prerequis
+
+- `Node.js`
+- `npm`
+- `Ruby`
+- `Bundler`
+- `Rails`
+
 ## Lancer le projet
+
+Ouvre deux terminaux a la racine du depot.
 
 ### Backend
 
@@ -38,12 +48,77 @@ npm run dev
 
 Le front tourne sur `http://localhost:5173`.
 
-## Fonctionnalites
+## Ce que fait le projet
 
 - recuperation de la liste des projets via l'API Rails
 - creation d'un projet via un formulaire React
 - configuration CORS pour autoriser `localhost:5173`
 - test d'integration Rails pour `GET` et `POST`
+
+## Tester manuellement
+
+### 1. Verifier l'API seule
+
+Dans un navigateur ou avec `curl`, ouvre :
+
+```bash
+curl http://localhost:3000/api/projects
+```
+
+Tu dois recevoir un tableau JSON de projets.
+
+### 2. Verifier le front
+
+Ouvre `http://localhost:5173`.
+
+Tu dois voir :
+
+- la liste des projets venant du backend
+- un champ `Titre`
+- un champ `Description`
+- un bouton pour ajouter un projet
+
+### 3. Verifier la liaison front / back
+
+Ajoute un projet depuis le formulaire.
+
+Tu dois constater :
+
+- une requete `POST http://localhost:3000/api/projects`
+- une reponse `201 Created`
+- le nouveau projet qui apparait dans la liste
+
+### 4. Verifier dans les DevTools
+
+Dans l'onglet Network du navigateur :
+
+- la requete `GET /api/projects` doit repondre `200`
+- la requete `POST /api/projects` doit repondre `201`
+- il ne doit pas y avoir d'erreur CORS
+
+## Verifications rapides
+
+### Front
+
+```bash
+npm run build
+```
+
+### Back
+
+```bash
+cd backend
+bundle exec rails test
+```
+
+## Probleme courant
+
+Si le front ne charge rien :
+
+- verifie que Rails tourne bien sur `localhost:3000`
+- verifie que Vite tourne bien sur `localhost:5173`
+- verifie les erreurs dans la console navigateur
+- verifie que `backend/config/initializers/cors.rb` autorise bien `http://localhost:5173`
 
 ## Documentation detaillee
 
